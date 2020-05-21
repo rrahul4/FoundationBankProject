@@ -8,11 +8,11 @@ import javax.persistence.Id;
 public class Account {
 	
 	public static enum AccountType {
-		Savings, Current
+		Savings, Current, Joint
 	}
 	
 	@Id
-	@GeneratedValue
+//	@GeneratedValue
 	private Integer accountId;
 	private AccountType accountType;
 	private Long accountBalance;

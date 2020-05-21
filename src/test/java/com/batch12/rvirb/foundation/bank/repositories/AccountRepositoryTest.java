@@ -1,5 +1,7 @@
 package com.batch12.rvirb.foundation.bank.repositories;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -32,10 +34,16 @@ class AccountRepositoryTest {
 		Account account2 = new Account();
 		account2.setAccountId(1002);
 		account2.setAccountType(Account.AccountType.Savings);
-		account2.setAccountBalance(100L);
+		account2.setAccountBalance(200L);
 
 		accountRepository.save(account2);
+		
+		Account account3 = new Account();
+		account3.setAccountId(1003);
+		account3.setAccountType(Account.AccountType.Joint);
+		account3.setAccountBalance(300L);
 
+		accountRepository.save(account3);
 	}
 
 	@Test
@@ -48,6 +56,15 @@ class AccountRepositoryTest {
 					account.getAccountId() + "\t" + account.getAccountType() + "\t" + account.getAccountBalance());
 
 		}
+	}
+	
+	@Test
+	@Order(3)
+	public void getAccount() {
+		Optional<Account> accountOpt = accountRepository.findById(1001);
+		Account account = accountOpt.get();
+		System.out.println(
+				account.getAccountId() + "\t" + account.getAccountType() + "\t" + account.getAccountBalance());
 	}
 
 }
