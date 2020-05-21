@@ -1,11 +1,18 @@
 package com.batch12.rvirb.foundation.bank.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Account {
 	
 	public static enum AccountType {
 		Savings, Current
 	}
 	
+	@Id
+	@GeneratedValue
 	private Integer accountId;
 	private AccountType accountType;
 	private Long accountBalance;

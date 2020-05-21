@@ -56,13 +56,15 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public Account updateAccount(int id, Account customerUpdate) {
+	public Account updateAccount(int id, Account accountUpdate) {
 		// TODO Auto-generated method stub
 		
 		Account accountUpdated = new Account();
 		
 		for (Account account:accounts) {
 			if (account.getAccountId() == id) {
+				account.setAccountType(accountUpdate.getAccountType());
+				account.setAccountBalance(accountUpdate.getAccountBalance());
 				accountUpdated = account;
 				break;
 			}
