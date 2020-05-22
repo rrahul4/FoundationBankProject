@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.batch12.rvirb.foundation.bank.dao.CustomerDao;
 import com.batch12.rvirb.foundation.bank.entities.Customer;
 
+//This Implementation will use DAO Layer, Static Array List and No Database
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 	

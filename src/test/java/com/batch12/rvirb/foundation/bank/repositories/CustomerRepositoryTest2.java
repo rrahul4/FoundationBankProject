@@ -8,17 +8,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.batch12.rvirb.foundation.bank.entities.Customer;
 
-//This Test will use Embedded DataBase with @DataJpaTest
+// This Test will use actual DataBase with @SpringBootTest
 
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
-@DataJpaTest
-class CustomerRepositoryTest {
+@SpringBootTest
+class CustomerRepositoryTest2 {
 
 	@Autowired
 	CustomerRepository customerRepository;
@@ -55,7 +55,7 @@ class CustomerRepositoryTest {
 	@Test
 	@Order(2)
 	public void getCustomers() {
-		createCustomer();
+		
 		Iterable<Customer> customers = customerRepository.findAll();
 
 		for (Customer customer : customers) {
@@ -67,64 +67,55 @@ class CustomerRepositoryTest {
 	@Test
 	@Order(3)
 	public void getCustomer() {
-		createCustomer();
 		
-		Optional<Customer> customerOpt = customerRepository.findById(9);
+		Optional<Customer> customerOpt = customerRepository.findById(1);
 		Customer customer = customerOpt.get();
 		System.out.println(customer);
-
+	
 	}
 
 	
 	@Test
 	@Order(4)
 	public void getCustomerByFirstNameAndLastName() {
-		createCustomer();
 		
 		Iterable<Customer> customers = customerRepository.findByCustomerFirstNameAndCustomerLastName("Rahulkumar", "Rakhonde");
 		
 		for (Customer customer : customers) {
 			System.out.println(customer);		
-
 		}		
 	}
 	
 	@Test
 	@Order(5)
 	public void getCustomerByFirstNameOrLastName() {
-		createCustomer();
 		
 		Iterable<Customer> customers = customerRepository.findByCustomerFirstNameOrCustomerLastName("Rahulkumar", "Rakhonde");
 		
 		for (Customer customer : customers) {
 			System.out.println(customer);
-
 		}
 	}
 	
 	@Test
 	@Order(6)
 	public void getCustomerByFirstNameLastName() {
-		createCustomer();
 		
 		Iterable<Customer> customers = customerRepository.getCustomerByFirstNameAndLastName("Rahulkumar", "Rakhonde");
 		
 		for (Customer customer : customers) {
 			System.out.println(customer);
-
 		}
 	}
 	
 	@Test
 	@Order(7)
 	public void getAllCustomers() {
-		createCustomer();
 		
 		Iterable<Customer> customers = customerRepository.findAllCustomers();
 		
 		for (Customer customer : customers) {
 			System.out.println(customer);	
-
 		}
 	}
 	

@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.batch12.rvirb.foundation.bank.entities.Account;
 import com.batch12.rvirb.foundation.bank.repositories.AccountRepository;
 
+//This Implementation will use CRUD Repository Layer, Actual Database
+
 @Service
+@Primary
 public class AccountServiceImpl2 implements AccountService {
 	
 	@Autowired
@@ -39,6 +43,7 @@ public class AccountServiceImpl2 implements AccountService {
 		
 		accountUpdated.setAccountBalance(account.getAccountBalance());
 		accountUpdated.setAccountType(account.getAccountType());
+		accountRepository.save(accountUpdated);
 		
 		return accountUpdated;
 				

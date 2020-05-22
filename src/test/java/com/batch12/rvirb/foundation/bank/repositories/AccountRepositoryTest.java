@@ -25,21 +25,18 @@ class AccountRepositoryTest {
 	@Order(1)
 	public void createAccount() {
 		Account account1 = new Account();
-		account1.setAccountId(1001);
 		account1.setAccountType(Account.AccountType.Current);
 		account1.setAccountBalance(100L);
 
 		accountRepository.save(account1);
 
 		Account account2 = new Account();
-		account2.setAccountId(1002);
 		account2.setAccountType(Account.AccountType.Savings);
 		account2.setAccountBalance(200L);
 
 		accountRepository.save(account2);
 		
 		Account account3 = new Account();
-		account3.setAccountId(1003);
 		account3.setAccountType(Account.AccountType.Joint);
 		account3.setAccountBalance(300L);
 
@@ -52,8 +49,7 @@ class AccountRepositoryTest {
 		Iterable<Account> accounts = accountRepository.findAll();
 
 		for (Account account : accounts) {
-			System.out.println(
-					account.getAccountId() + "\t" + account.getAccountType() + "\t" + account.getAccountBalance());
+			System.out.println(account);
 
 		}
 	}
@@ -61,10 +57,10 @@ class AccountRepositoryTest {
 	@Test
 	@Order(3)
 	public void getAccount() {
-		Optional<Account> accountOpt = accountRepository.findById(1001);
+		Optional<Account> accountOpt = accountRepository.findById(1);
 		Account account = accountOpt.get();
-		System.out.println(
-				account.getAccountId() + "\t" + account.getAccountType() + "\t" + account.getAccountBalance());
+		System.out.println(account);
+		
 	}
 
 }

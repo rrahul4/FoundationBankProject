@@ -16,17 +16,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.batch12.rvirb.foundation.bank.entities.Account;
 import com.batch12.rvirb.foundation.bank.exceptions.AccountNotFound;
-import com.batch12.rvirb.foundation.bank.service.AccountServiceImpl;
-import com.batch12.rvirb.foundation.bank.service.AccountServiceImpl2;
+import com.batch12.rvirb.foundation.bank.service.AccountService;
 
 @RestController
 public class AccountController {
 	
 	@Autowired
-//	AccountServiceImpl accountService;
-	AccountServiceImpl2 accountService;
+	AccountService accountService;
 
-	
 	@GetMapping("/accounts")
 	public List<Account> getAccounts() {
 		return accountService.getAccounts();

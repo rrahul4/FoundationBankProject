@@ -16,15 +16,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.batch12.rvirb.foundation.bank.entities.Customer;
 import com.batch12.rvirb.foundation.bank.exceptions.CustomerNotFound;
-import com.batch12.rvirb.foundation.bank.service.CustomerServiceImpl;
-import com.batch12.rvirb.foundation.bank.service.CustomerServiceImpl2;
+import com.batch12.rvirb.foundation.bank.service.CustomerService;
 
 @RestController
 public class CustomerController {
 	
 	@Autowired
-//	CustomerServiceImpl customerService;
-	CustomerServiceImpl2 customerService;
+	CustomerService customerService;
 	
 	@GetMapping("/customers")
 	public List<Customer> getCustomers() {
