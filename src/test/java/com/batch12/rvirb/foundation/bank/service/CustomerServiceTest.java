@@ -38,7 +38,7 @@ class CustomerServiceTest {
 	@Order(1)
 	public void test_getCustomer() {
 
-		Optional<Customer> customer = Optional.of(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com"));
+		Optional<Customer> customer = Optional.of(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
 		
 		when(customerRepository.findById(1)).thenReturn(customer);
 	
@@ -57,8 +57,8 @@ class CustomerServiceTest {
 
 		List<Customer> customerList = new ArrayList<Customer>();
 		
-		customerList.add(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com"));
-		customerList.add(new Customer(2,"Aarohi", "Rakhonde", "abc.xyz@gmail.com"));
+		customerList.add(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
+		customerList.add(new Customer(2,"Aarohi", "Rakhonde", "abc.xyz@gmail.com", null));
 		
 		when(customerRepository.findAll()).thenReturn(customerList);
 	
@@ -77,8 +77,8 @@ class CustomerServiceTest {
 	@Order(3)
 	public void test_createCustomer() {
 
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com");
-		Customer mockCustomer = new Customer(1,"Aarohi", "Rakhonde", "abc.xyz@gmail.com");
+		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null);
+		Customer mockCustomer = new Customer(1,"Aarohi", "Rakhonde", "abc.xyz@gmail.com", null);
 		
 		when(customerRepository.save(customer)).thenReturn(mockCustomer);
 	

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.batch12.rvirb.foundation.bank.entities.Customer;
+import com.batch12.rvirb.foundation.bank.exceptions.CustomerNotFound;
 import com.batch12.rvirb.foundation.bank.repositories.CustomerRepository;
 
 //This Implementation will use CRUD Repository Layer, Actual Database
@@ -21,6 +22,10 @@ public class CustomerServiceImpl2 implements CustomerService {
 	
 	public Customer getCustomer(int id) {
 		Optional<Customer> customerOpt = customerRepository.findById(id);
+		if (!customerOpt.isPresent()) {
+			throw new CustomerNotFound("Id --" +id);
+		}
+		
 		Customer customer = customerOpt.get();
 		return customer;
 	}
@@ -38,11 +43,16 @@ public class CustomerServiceImpl2 implements CustomerService {
 
 	public Customer updateCustomer(int id, Customer customer) {
 		Optional<Customer> customerOpt = customerRepository.findById(id);
+		if (!customerOpt.isPresent()) {
+			throw new CustomerNotFound("Id --" +id);
+		}
+	
 		Customer customerUpdated = customerOpt.get();
 		
 		customerUpdated.setCustomerFirstName(customer.getCustomerFirstName());
 		customerUpdated.setCustomerLastName(customer.getCustomerLastName());
 		customerUpdated.setCustomerEmail(customer.getCustomerEmail());
+		customerUpdated.setAccounts(customer.getAccounts());
 		customerRepository.save(customerUpdated);
 		
 		return customerUpdated;	
@@ -50,6 +60,10 @@ public class CustomerServiceImpl2 implements CustomerService {
 
 	public Customer deleteCustomer(int id) {
 		Optional<Customer> customerOpt = customerRepository.findById(id);
+		if (!customerOpt.isPresent()) {
+			throw new CustomerNotFound("Id --" +id);
+		}
+		
 		Customer customerDeleted = customerOpt.get();
 		
 		customerRepository.delete(customerDeleted);

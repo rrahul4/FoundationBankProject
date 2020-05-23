@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.batch12.rvirb.foundation.bank.entities.Account;
 import com.batch12.rvirb.foundation.bank.entities.Customer;
 import com.batch12.rvirb.foundation.bank.exceptions.CustomerNotFound;
 import com.batch12.rvirb.foundation.bank.service.CustomerService;
@@ -33,7 +34,6 @@ public class CustomerController {
 	@GetMapping("/customers/{id}")
 	public Customer getCustomer(@PathVariable int id) {
 		Customer customer = customerService.getCustomer(id);
-		
 		if (customer.getCustomerId()==null) {
 			throw new CustomerNotFound("Id --" +id);
 		}
@@ -67,9 +67,45 @@ public class CustomerController {
 	public void deleteCustomer(@PathVariable int id) {
 		
 		Customer deletedCustomer = customerService.deleteCustomer(id);
-		
 		if (deletedCustomer.getCustomerId()==null) {
 			throw new CustomerNotFound("Id --" +id);
 		}	
+	}
+	
+	
+	@PostMapping("/customers/{id}/accounts")
+	public ResponseEntity<Account> createAccountUnderCustomer(@PathVariable int id, @RequestBody List<Account> accounts) {
+		
+		Customer customer = customerService.getCustomer(id);		
+		if (customer.getCustomerId()==null) {
+			throw new CustomerNotFound("Id --" +id);
+		}		
+		
+		customer.setAccounts(accounts);
+		Customer updatedCustomer = customerService.updateCustomer(id, customer);
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(updatedCustomer.getCustomerId())
+				.toUri();
+		
+		return ResponseEntity.created(location).build();
+	}
+	
+	@GetMapping("/customers/{id}/accounts")
+	public List<Account> getCustomerAccount(@PathVariable int id) {
+		Customer customer = customerService.getCustomer(id);
+		if (customer.getCustomerId()==null) {
+			throw new CustomerNotFound("Id --" +id);
+		}
+		
+		return customer.getAccounts();	
+	}
+	
+	@GetMapping("/customers/accounts")
+	public List<Customer> getCustomerAccount() {
+		
+		return customerService.getCustomers();
+		
 	}
 }

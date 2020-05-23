@@ -16,9 +16,9 @@ public class CustomerDaoImpl implements CustomerDao {
 	static int counter=0;
 	
 	static {
-		customers.add(new Customer(++counter, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com"));
-		customers.add(new Customer(++counter, "Rupeshkumar", "Rakhonde", "abc.xyz@gmail.com"));
-		customers.add(new Customer(++counter, "Aarohi", "Rakhonde", "abc.xyz@gmail.com"));
+		customers.add(new Customer(++counter, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
+		customers.add(new Customer(++counter, "Rupeshkumar", "Rakhonde", "abc.xyz@gmail.com", null));
+		customers.add(new Customer(++counter, "Aarohi", "Rakhonde", "abc.xyz@gmail.com", null));
 	}
 
 	@Override

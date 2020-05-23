@@ -16,9 +16,9 @@ public class AccountDaoImpl implements AccountDao {
 	static int counter=0;
 		
 	static {
-		accounts.add(new Account(++counter, Account.AccountType.Savings, 10L));
-		accounts.add(new Account(++counter, Account.AccountType.Savings, 20L));
-		accounts.add(new Account(++counter, Account.AccountType.Current, 10L));
+		accounts.add(new Account(++counter, Account.AccountType.Savings, 10D, null));
+		accounts.add(new Account(++counter, Account.AccountType.Savings, 20D, null));
+		accounts.add(new Account(++counter, Account.AccountType.Current, 10D, null));
 
 	}
 

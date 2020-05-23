@@ -26,19 +26,19 @@ class AccountRepositoryTest {
 	public void createAccount() {
 		Account account1 = new Account();
 		account1.setAccountType(Account.AccountType.Current);
-		account1.setAccountBalance(100L);
+		account1.setAccountBalance(100D);
 
 		accountRepository.save(account1);
 
 		Account account2 = new Account();
 		account2.setAccountType(Account.AccountType.Savings);
-		account2.setAccountBalance(200L);
+		account2.setAccountBalance(200D);
 
 		accountRepository.save(account2);
 		
 		Account account3 = new Account();
 		account3.setAccountType(Account.AccountType.Joint);
-		account3.setAccountBalance(300L);
+		account3.setAccountBalance(300D);
 
 		accountRepository.save(account3);
 	}

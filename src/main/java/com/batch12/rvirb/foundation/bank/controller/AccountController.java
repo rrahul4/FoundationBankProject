@@ -1,20 +1,15 @@
 package com.batch12.rvirb.foundation.bank.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.batch12.rvirb.foundation.bank.entities.Account;
+import com.batch12.rvirb.foundation.bank.entities.TransferFund;
 import com.batch12.rvirb.foundation.bank.exceptions.AccountNotFound;
 import com.batch12.rvirb.foundation.bank.service.AccountService;
 
@@ -40,36 +35,23 @@ public class AccountController {
 		
 		return account;	
 	}
-	
-	@PostMapping("/accounts")
-	public ResponseEntity<Account> createAccount(@RequestBody Account account) {
-		Account savedAccount = accountService.createAccount(account);
 		
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(savedAccount.getAccountId())
-				.toUri();
+	@PutMapping("/accounts/transferFunds")
+	public String transferFunds(@RequestBody TransferFund transferFund) {
 		
-		return ResponseEntity.created(location).build();
-	}
+		Double amount = transferFund.getAmount();
+		Account fromAccount = accountService.getAccount(transferFund.getFromAccount());
+		Account toAccount = accountService.getAccount(transferFund.getToAccount());
+		
+		if ((fromAccount.getAccountBalance() - amount) < 0) 
+			return "Transfer Unsuccessful! From Account is not having enough Balance: " + fromAccount.getAccountBalance();
+		
+		fromAccount.setAccountBalance(fromAccount.getAccountBalance() - amount);
+		toAccount.setAccountBalance(toAccount.getAccountBalance() + amount);
 
-	@PutMapping("/accounts/{id}")
-	public void updateAccount(@PathVariable int id, @RequestBody Account account) {
+		accountService.updateAccount(fromAccount.getAccountId(), fromAccount);
+		accountService.updateAccount(toAccount.getAccountId(), toAccount);
 		
-		Account updatedAccount = accountService.updateAccount(id, account);
-		
-		if (updatedAccount.getAccountId()==null) {
-			throw new AccountNotFound("Id --" +id);
-		}
-	}
-	
-	@DeleteMapping("/accounts/{id}")
-	public void deleteCustomer(@PathVariable int id) {
-		
-		Account deletedAccount = accountService.deleteAccount(id);
-		
-		if (deletedAccount.getAccountId()==null) {
-			throw new AccountNotFound("Id --" +id);
-		}	
+		return "Transfer Successful !!!";
 	}
 }
