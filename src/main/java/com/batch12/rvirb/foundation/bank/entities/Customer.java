@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="customerId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="customerId", scope = Customer.class)
 public class Customer {
 	
 // This is Parent Table of relationship	
@@ -90,11 +90,11 @@ public class Customer {
 		this.accounts = accounts;
 	}
 
-/*	@Override
+	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", customerFirstName=" + customerFirstName + ", customerLastName="
 				+ customerLastName + ", customerEmail=" + customerEmail + ", accounts=" + accounts + "]";
-	}*/
+	}
 		
 	
 	

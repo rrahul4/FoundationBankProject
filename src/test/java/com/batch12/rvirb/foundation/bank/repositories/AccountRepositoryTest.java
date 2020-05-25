@@ -2,6 +2,8 @@ package com.batch12.rvirb.foundation.bank.repositories;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -45,17 +47,18 @@ class AccountRepositoryTest {
 
 	@Test
 	@Order(2)
+	@Transactional
 	public void getAccounts() {
 		Iterable<Account> accounts = accountRepository.findAll();
 
 		for (Account account : accounts) {
 			System.out.println(account);
-
 		}
 	}
 	
 	@Test
 	@Order(3)
+	@Transactional
 	public void getAccount() {
 		Optional<Account> accountOpt = accountRepository.findById(1);
 		Account account = accountOpt.get();

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="accountId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="accountId", scope = Account.class)
 public class Account {
 
 	public static enum AccountType {
@@ -76,11 +76,11 @@ public class Account {
 		this.customers = customers;
 	}
 
-/*	@Override
+	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", accountType=" + accountType + ", accountBalance=" + accountBalance
 				+ ", customers=" + customers + "]";
-	}*/
+	}
 	
 	
 	

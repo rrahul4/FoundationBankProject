@@ -1,6 +1,7 @@
 package com.batch12.rvirb.foundation.bank.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,12 @@ public class CustomerController {
 			throw new CustomerNotFound("Id --" +id);
 		}		
 		
-		customer.setAccounts(accounts);
+		Iterable<Account> accountsReceived = accounts;
+
+		for (Account account : accountsReceived) {
+			customer.getAccounts().add(account);
+		}
+		
 		Customer updatedCustomer = customerService.updateCustomer(id, customer);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -99,7 +105,14 @@ public class CustomerController {
 			throw new CustomerNotFound("Id --" +id);
 		}
 		
-		return customer.getAccounts();	
+		List<Account> accountList = new ArrayList<Account>();
+		Iterable<Account> accountsFetched = customer.getAccounts();
+
+		for (Account account : accountsFetched) {
+			accountList.add(account);
+		}
+				
+		return accountList;	
 	}
 	
 	@GetMapping("/customers/accounts")
