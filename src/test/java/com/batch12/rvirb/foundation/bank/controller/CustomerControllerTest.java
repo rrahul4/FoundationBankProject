@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -38,16 +41,28 @@ class CustomerControllerTest {
 	
 	@MockBean
 	private CustomerService customerService;
+	
+	@BeforeEach
+    public void init(TestInfo testInfo) {
+        System.out.println(" -- BEGIN " + testInfo.getDisplayName() + " -- ");
+    
+    }
+    
+    @AfterEach
+    public void end() {
+        System.out.println(" -- END -- ");
+    
+    }
 		
 	@Test
 	@Order(1)
 	public void test_getCustomers() throws Exception {
 		
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
+		accountList.add(new Account(1, Account.AccountType.Current, 700D, null));
 		
 		List<Customer> customerList = new ArrayList<Customer>();
-		customerList.add(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList));
+		customerList.add(new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList));
 		
 		System.out.println(customerList);
 		
@@ -62,10 +77,11 @@ class CustomerControllerTest {
 		
 		MockHttpServletResponse response = result.getResponse();
 		
-		String expectedResult = "[{\"customerId\":1,\"customerFirstName\":\"Rahulkumar\",\"customerLastName\":\"Rakhonde\",\"customerEmail\":\"abc.xyz@gmail.com\",\"accounts\":[{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0,\"customers\":null}]}]";
+		String expectedResult = "[{\"customerId\":1,\"customerFirstName\":\"Rahulkumar\",\"customerLastName\":\"Rakhonde\",\"customerEmail\":\"abc.xyz@gmail.com\",\"accounts\":[{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0}]}]";
 		
 		assertEquals(expectedResult, response.getContentAsString());
-		assertEquals(HttpStatus.OK.value(),response.getStatus());
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
+		
 	}
 
 	@Test
@@ -73,9 +89,9 @@ class CustomerControllerTest {
 	public void test_getCustomer() throws Exception {
 		
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
+		accountList.add(new Account(1, Account.AccountType.Current, 700D, null));
 		
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);		
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);		
 		
 		System.out.println(customer);
 				
@@ -90,10 +106,10 @@ class CustomerControllerTest {
 		
 		MockHttpServletResponse response = result.getResponse();
 		
-		String expectedResult = "{\"customerId\":1,\"customerFirstName\":\"Rahulkumar\",\"customerLastName\":\"Rakhonde\",\"customerEmail\":\"abc.xyz@gmail.com\",\"accounts\":[{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0,\"customers\":null}]}";
+		String expectedResult = "{\"customerId\":1,\"customerFirstName\":\"Rahulkumar\",\"customerLastName\":\"Rakhonde\",\"customerEmail\":\"abc.xyz@gmail.com\",\"accounts\":[{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0}]}";
 		
 		assertEquals(expectedResult, response.getContentAsString());
-		assertEquals(HttpStatus.OK.value(),response.getStatus());
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
 		
 	}
 	
@@ -123,7 +139,7 @@ class CustomerControllerTest {
 	public void test_createCustomer() throws Exception {
 				
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
+		accountList.add(new Account(1, Account.AccountType.Current, 700D, null));
 		
 		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
 		System.out.println(customer);
@@ -156,7 +172,7 @@ class CustomerControllerTest {
 		List<Account> accountList = new ArrayList<Account>();
 		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
 		
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
 		System.out.println(customer);
 		
 		Gson gson = new Gson();		
@@ -185,9 +201,9 @@ class CustomerControllerTest {
 	public void test_updateCustomer_negative() throws Exception {
 		
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
+		accountList.add(new Account(1, Account.AccountType.Current, 700D, null));
 		
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
 		System.out.println(customer);
 		
 		Gson gson = new Gson();		
@@ -220,7 +236,7 @@ class CustomerControllerTest {
 		List<Account> accountList = new ArrayList<Account>();
 		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
 		
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
 		System.out.println(customer);
 		
 		Mockito.when(customerService.deleteCustomer(Mockito.anyInt())).thenReturn(customer);
@@ -264,9 +280,9 @@ class CustomerControllerTest {
 	public void test_createAccountUnderCustomer() throws Exception {
 				
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
+		accountList.add(new Account(1, Account.AccountType.Current, 700D, null));
 		
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
 		System.out.println(customer);
 		
 		Gson gson = new Gson();		
@@ -296,9 +312,9 @@ class CustomerControllerTest {
 	public void test_createAccountUnderCustomer_negative() throws Exception {
 				
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
+		accountList.add(new Account(1, Account.AccountType.Current, 700D, null));
 		
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);
 		System.out.println(customer);
 		
 		Gson gson = new Gson();		
@@ -329,9 +345,9 @@ class CustomerControllerTest {
 	public void test_getCustomerAccount() throws Exception {
 		
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1,Account.AccountType.Current, 700D, null));
+		accountList.add(new Account(1, Account.AccountType.Current, 700D, null));
 		
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);		
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList);		
 		
 		System.out.println(customer);
 				
@@ -346,7 +362,7 @@ class CustomerControllerTest {
 		
 		MockHttpServletResponse response = result.getResponse();
 		
-		String expectedResult = "[{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0,\"customers\":null}]";
+		String expectedResult = "[{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0}]";
 		
 		assertEquals(expectedResult, response.getContentAsString());
 		assertEquals(HttpStatus.OK.value(), response.getStatus());

@@ -52,7 +52,10 @@ public class CustomerServiceImpl2 implements CustomerService {
 		customerUpdated.setCustomerFirstName(customer.getCustomerFirstName());
 		customerUpdated.setCustomerLastName(customer.getCustomerLastName());
 		customerUpdated.setCustomerEmail(customer.getCustomerEmail());
-		customerUpdated.setAccounts(customer.getAccounts());
+		if (customer.getAccounts() !=null) {
+			customerUpdated.setAccounts(customer.getAccounts());	
+		}
+		
 		customerRepository.save(customerUpdated);
 		
 		return customerUpdated;	

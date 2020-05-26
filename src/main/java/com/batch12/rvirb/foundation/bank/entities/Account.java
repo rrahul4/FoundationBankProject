@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -30,6 +31,7 @@ public class Account {
 	private Double accountBalance;
 	
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy="accounts", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<Customer> customers;
 
 	public Account() {

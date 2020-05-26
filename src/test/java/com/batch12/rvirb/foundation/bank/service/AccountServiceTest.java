@@ -1,6 +1,7 @@
 package com.batch12.rvirb.foundation.bank.service;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +36,18 @@ class AccountServiceTest {
 	
 	@Mock
 	private AccountRepository accountRepository;
+	
+	@BeforeEach
+    public void init(TestInfo testInfo) {
+        System.out.println(" -- BEGIN " + testInfo.getDisplayName() + " -- ");
+    
+    }
+    
+    @AfterEach
+    public void end() {
+        System.out.println(" -- END -- ");
+    
+    }
 
 	@Test
 	@Order(1)
@@ -124,7 +139,7 @@ class AccountServiceTest {
 	public void test_updateAccount() {
 
 		Account account = new Account(1, Account.AccountType.Current, 200D, null);
-		Optional<Account> mockAccount = Optional.of(new Account(1,Account.AccountType.Current, 500D, null));
+		Optional<Account> mockAccount = Optional.of(new Account(1, Account.AccountType.Current, 500D, null));
 		
 		Mockito.when(accountRepository.findById(Mockito.anyInt())).thenReturn(mockAccount);
 		Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(mockAccount.get());

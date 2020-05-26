@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -23,7 +26,6 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.batch12.rvirb.foundation.bank.entities.Account;
-import com.batch12.rvirb.foundation.bank.entities.Customer;
 import com.batch12.rvirb.foundation.bank.entities.TransferFund;
 import com.batch12.rvirb.foundation.bank.exceptions.AccountNotFound;
 import com.batch12.rvirb.foundation.bank.service.AccountService;
@@ -40,15 +42,24 @@ class AccountControllerTest {
 	@MockBean
 	private AccountService accountService;
 	
+	@BeforeEach
+    public void init(TestInfo testInfo) {
+        System.out.println(" -- BEGIN " + testInfo.getDisplayName() + " -- ");
+    
+    }
+    
+    @AfterEach
+    public void end() {
+        System.out.println(" -- END -- ");
+    
+    }
+	
 	@Test
 	@Order(1)
 	public void test_getAccounts() throws Exception {
-		
-		List<Customer> customerList = new ArrayList<Customer>();
-		customerList.add(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
-		
+				
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1,Account.AccountType.Current, 700D, customerList));
+		accountList.add(new Account(1, Account.AccountType.Current, 700D, null));
 		
 		System.out.println(accountList);
 				
@@ -63,7 +74,7 @@ class AccountControllerTest {
 		
 		MockHttpServletResponse response = result.getResponse();
 		
-		String expectedResult = "[{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0,\"customers\":[{\"customerId\":1,\"customerFirstName\":\"Rahulkumar\",\"customerLastName\":\"Rakhonde\",\"customerEmail\":\"abc.xyz@gmail.com\",\"accounts\":null}]}]";
+		String expectedResult = "[{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0}]";
 		
 		assertEquals(expectedResult, response.getContentAsString());
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -74,10 +85,7 @@ class AccountControllerTest {
 	@Order(2)
 	public void test_getAccount() throws Exception {
 
-		List<Customer> customerList = new ArrayList<Customer>();
-		customerList.add(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
-				
-		Account account = new Account(1,Account.AccountType.Current, 700D, customerList);		
+		Account account = new Account(1, Account.AccountType.Current, 700D, null);		
 		
 		System.out.println(account);
 				
@@ -92,10 +100,10 @@ class AccountControllerTest {
 		
 		MockHttpServletResponse response = result.getResponse();
 		
-		String expectedResult = "{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0,\"customers\":[{\"customerId\":1,\"customerFirstName\":\"Rahulkumar\",\"customerLastName\":\"Rakhonde\",\"customerEmail\":\"abc.xyz@gmail.com\",\"accounts\":null}]}";
+		String expectedResult = "{\"accountId\":1,\"accountType\":\"Current\",\"accountBalance\":700.0}";
 		
 		assertEquals(expectedResult, response.getContentAsString());
-		assertEquals(HttpStatus.OK.value(),response.getStatus());
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
 		
 	}
 	
@@ -115,24 +123,21 @@ class AccountControllerTest {
 		
 		MockHttpServletResponse response = result.getResponse();
 		
-		assertEquals(HttpStatus.NOT_FOUND.value(),response.getStatus());
+		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
 		
 	}
 
 	@Test
 	@Order(4)
 	public void test_transferFunds() throws Exception {
-				
-		List<Customer> customerList = new ArrayList<Customer>();
-		customerList.add(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
-				
-		Account account1 = new Account(1,Account.AccountType.Current, 300D, customerList);
-		Account account2 = new Account(1,Account.AccountType.Current, 500D, customerList);
+		
+		Account account1 = new Account(1, Account.AccountType.Current, 300D, null);
+		Account account2 = new Account(2, Account.AccountType.Current, 500D, null);
 		
 		System.out.println(account1);
 		System.out.println(account2);
 		
-		TransferFund transferFund = new TransferFund(1,2,200D);
+		TransferFund transferFund = new TransferFund(1, 2 ,200D);
 		
 		Gson gson = new Gson();		
 		String transferFundJson = gson.toJson(transferFund);
@@ -154,19 +159,16 @@ class AccountControllerTest {
 		String expectedResult = "Transfer Successful !!!";
 		
 		assertEquals(expectedResult, response.getContentAsString());
-		assertEquals(HttpStatus.OK.value(),response.getStatus());
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
 
 	}
 
 	@Test
 	@Order(5)
 	public void test_transferFunds_negative() throws Exception {
-				
-		List<Customer> customerList = new ArrayList<Customer>();
-		customerList.add(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
-				
-		Account account1 = new Account(1,Account.AccountType.Current, 150D, customerList);
-		Account account2 = new Account(1,Account.AccountType.Current, 500D, customerList);
+								
+		Account account1 = new Account(1, Account.AccountType.Current, 150D, null);
+		Account account2 = new Account(2, Account.AccountType.Current, 500D, null);
 		
 		System.out.println(account1);
 		System.out.println(account2);
@@ -193,7 +195,7 @@ class AccountControllerTest {
 		String expectedResult = "Transfer Unsuccessful! From Account is not having enough Balance: " + account1.getAccountBalance();
 		
 		assertEquals(expectedResult, response.getContentAsString());
-		assertEquals(HttpStatus.OK.value(),response.getStatus());		
+		assertEquals(HttpStatus.OK.value(), response.getStatus());		
 		
 	}
 	

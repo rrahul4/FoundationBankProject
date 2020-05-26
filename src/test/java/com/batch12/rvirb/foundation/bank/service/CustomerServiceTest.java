@@ -1,6 +1,7 @@
 package com.batch12.rvirb.foundation.bank.service;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,12 +36,24 @@ class CustomerServiceTest {
 	
 	@Mock
 	private CustomerRepository customerRepository;
+	
+	@BeforeEach
+    public void init(TestInfo testInfo) {
+        System.out.println(" -- BEGIN " + testInfo.getDisplayName() + " -- ");
+    
+    }
+    
+    @AfterEach
+    public void end() {
+        System.out.println(" -- END -- ");
+    
+    }
 
 	@Test
 	@Order(1)
 	public void test_getCustomer() {
 
-		Optional<Customer> mockCustomer = Optional.of(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
+		Optional<Customer> mockCustomer = Optional.of(new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
 		
 		Mockito.when(customerRepository.findById(Mockito.anyInt())).thenReturn(mockCustomer);
 	
@@ -71,8 +86,8 @@ class CustomerServiceTest {
 
 		List<Customer> customerList = new ArrayList<Customer>();
 		
-		customerList.add(new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
-		customerList.add(new Customer(2,"Aarohi", "Rakhonde", "abc.xyz@gmail.com", null));
+		customerList.add(new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
+		customerList.add(new Customer(2, "Aarohi", "Rakhonde", "abc.xyz@gmail.com", null));
 		
 		Mockito.when(customerRepository.findAll()).thenReturn(customerList);
 	
@@ -108,8 +123,8 @@ class CustomerServiceTest {
 	@Order(5)
 	public void test_createCustomer() {
 		
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null);
-		Customer mockCustomer = new Customer(1,"Aarohi", "Rakhonde", "abc.xyz@gmail.com", null);
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null);
+		Customer mockCustomer = new Customer(1, "Aarohi", "Rakhonde", "abc.xyz@gmail.com", null);
 		
 		Mockito.when(customerRepository.save(Mockito.any(Customer.class))).thenReturn(mockCustomer);
 	
@@ -126,7 +141,7 @@ class CustomerServiceTest {
 	@Order(6)
 	public void test_updateCustomer() {
 
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null);
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null);
 		Optional<Customer> mockCustomer = Optional.of(new Customer(1,"Aarohi", "Rakhonde", "abc.xyz@gmail.com", null));
 		
 		Mockito.when(customerRepository.findById(Mockito.anyInt())).thenReturn(mockCustomer);
@@ -145,7 +160,7 @@ class CustomerServiceTest {
 	@Order(7)
 	public void test_updateCustomer_negative() {
 
-		Customer customer = new Customer(1,"Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null);
+		Customer customer = new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null);
 		
 		String exceptionMessage = "Customer Not Found!!";
 		Mockito.when(customerRepository.findById(Mockito.anyInt())).thenThrow(new CustomerNotFound(exceptionMessage));
@@ -161,7 +176,7 @@ class CustomerServiceTest {
 	@Order(8)
 	public void test_deleteCustomer() {
 
-		Optional<Customer> mockCustomer = Optional.of(new Customer(1,"Aarohi", "Rakhonde", "abc.xyz@gmail.com", null));
+		Optional<Customer> mockCustomer = Optional.of(new Customer(1, "Aarohi", "Rakhonde", "abc.xyz@gmail.com", null));
 		
 		Mockito.when(customerRepository.findById(Mockito.anyInt())).thenReturn(mockCustomer);
 	
