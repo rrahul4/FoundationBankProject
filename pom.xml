@@ -99,8 +99,8 @@
 		<dependency>
   			<groupId>com.google.code.gson</groupId>
   			<artifactId>gson</artifactId>
-		</dependency>
-		
+		</dependency>			
+
 	</dependencies>
 
 	<build>

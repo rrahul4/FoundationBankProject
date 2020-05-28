@@ -54,49 +54,41 @@ class CustomerRepositoryTest {
 
 		Account account1 = new Account();
 		account1.setAccountType(Account.AccountType.Current);
-		account1.setAccountBalance(100D);
+		account1.setAccountBalance(300D);
 
 		Account account2 = new Account();
 		account2.setAccountType(Account.AccountType.Savings);
-		account2.setAccountBalance(200D);
+		account2.setAccountBalance(400D);
 
 		Account account3 = new Account();
 		account3.setAccountType(Account.AccountType.Joint);
-		account3.setAccountBalance(400D);
+		account3.setAccountBalance(500D);
 
-		List<Customer> customerList1 = new ArrayList<Customer>();
-		List<Customer> customerList2 = new ArrayList<Customer>();
-		List<Customer> customerList3 = new ArrayList<Customer>();
-		List<Customer> customerList4 = new ArrayList<Customer>();
+		List<Customer> customerList = new ArrayList<Customer>();		
+		List<Account> accountList = new ArrayList<Account>();
 		
-		List<Account> accountList1 = new ArrayList<Account>();
-		List<Account> accountList2 = new ArrayList<Account>();		
-		List<Account> accountList3 = new ArrayList<Account>();
+		customerList.add(customer1);
+		customerList.add(customer2);
+		customerList.add(customer3);
 		
-		customerList1.add(customer1);
-		customerList2.add(customer2);
-		customerList3.add(customer3);
-		customerList3.add(customer1);
-		customerList4.add(customer4);
+		accountList.add(account1);
+		accountList.add(account2);
+		accountList.add(account3);
+				
+		customer1.setAccounts(accountList);
+		customer2.setAccounts(accountList);
+		customer3.setAccounts(accountList);
+		customer4.setAccounts(null);
 		
-		accountList1.add(account1);
-		accountList2.add(account2);
-		accountList3.add(account3);
-		accountList3.add(account2);
-		
-/*		customer1.setAccounts(accountList1);
-		customer2.setAccounts(accountList2);
-		customer3.setAccounts(accountList3);
-		customer4.setAccounts(accountList1);
-		
-		account1.setCustomers(customerList1);
-		account2.setCustomers(customerList2);
-		account3.setCustomers(customerList3);*/
+		account1.setCustomers(customerList);
+		account2.setCustomers(customerList);
+		account3.setCustomers(customerList);
 
 		customerRepository.save(customer1);
 		customerRepository.save(customer2);
 		customerRepository.save(customer3);
 		customerRepository.save(customer4);
+		
 	}
 
 	@Test

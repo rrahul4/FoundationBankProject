@@ -70,20 +70,25 @@ public class Account {
 		this.accountBalance = accountBalance;
 	}
 
+	
 	public List<Customer> getCustomers() {
 		return customers;
 	}
-
+	
+	
 	public void setCustomers(List<Customer> customers) {
 		this.customers = customers;
 	}
 
 	@Override
 	public String toString() {
+// This is to avoid Stack OverFlowError.		
+//		return "Account [accountId=" + accountId + ", accountType=" + accountType + ", accountBalance=" + accountBalance
+//				+ ", customers=" + customers + "]";  
+		
 		return "Account [accountId=" + accountId + ", accountType=" + accountType + ", accountBalance=" + accountBalance
-				+ ", customers=" + customers + "]";
+				+ ", customers=" + " " + "]";
+
 	}
-	
-	
 	
 }

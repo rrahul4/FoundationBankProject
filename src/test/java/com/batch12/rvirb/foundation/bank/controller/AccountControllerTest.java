@@ -29,6 +29,7 @@ import com.batch12.rvirb.foundation.bank.entities.Account;
 import com.batch12.rvirb.foundation.bank.entities.TransferFund;
 import com.batch12.rvirb.foundation.bank.exceptions.AccountNotFound;
 import com.batch12.rvirb.foundation.bank.service.AccountService;
+import com.batch12.rvirb.foundation.bank.service.CustomerService;
 import com.google.gson.Gson;
 
 @ExtendWith(SpringExtension.class)
@@ -42,6 +43,11 @@ class AccountControllerTest {
 	@MockBean
 	private AccountService accountService;
 	
+// This Bean is created to support CommandLineRunner from Main Spring Boot Application by Autowiring CustomerService.
+// @WebMvcTest will not create all Beans from application unlike @SpringBootTest does it.
+	@MockBean
+	private CustomerService customerService;
+		
 	@BeforeEach
     public void init(TestInfo testInfo) {
         System.out.println(" -- BEGIN " + testInfo.getDisplayName() + " -- ");

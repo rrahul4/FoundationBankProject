@@ -23,8 +23,8 @@ public class FoundationCommandLineRunner implements CommandLineRunner {
 		System.out.println(" -- Begin - Command Line Runner -- ");
 		
 		List<Account> accountList = new ArrayList<Account>();
-		accountList.add(new Account(1, Account.AccountType.Current, 200D, null));
-		Customer customer = (new Customer(1, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", null));
+		accountList.add(new Account(2, Account.AccountType.Current, 200D, null));
+		Customer customer = (new Customer(2, "Rahulkumar", "Rakhonde", "abc.xyz@gmail.com", accountList));
 		
 		customerService.createCustomer(customer);
 		

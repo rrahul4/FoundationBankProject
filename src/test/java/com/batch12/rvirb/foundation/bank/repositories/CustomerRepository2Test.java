@@ -13,10 +13,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.batch12.rvirb.foundation.bank.entities.Account;
 import com.batch12.rvirb.foundation.bank.entities.Customer;
+import com.batch12.rvirb.foundation.bank.service.CustomerService;
 
 //This Test will use Embedded DataBase with @DataJpaTest
 
@@ -27,6 +29,11 @@ class CustomerRepository2Test {
 
 	@Autowired
 	CustomerRepository customerRepository;
+	
+// This Bean is created to support CommandLineRunner from Main Spring Boot Application by Autowiring CustomerService.
+// @WebMvcTest will not create all Beans from application unlike @SpringBootTest does it.
+	@MockBean
+	private CustomerService customerService;
 
 	@Test
 	@Order(1)
@@ -64,39 +71,31 @@ class CustomerRepository2Test {
 		account3.setAccountType(Account.AccountType.Joint);
 		account3.setAccountBalance(400D);
 
-		List<Customer> customerList1 = new ArrayList<Customer>();
-		List<Customer> customerList2 = new ArrayList<Customer>();
-		List<Customer> customerList3 = new ArrayList<Customer>();
-		List<Customer> customerList4 = new ArrayList<Customer>();
+		List<Customer> customerList = new ArrayList<Customer>();		
+		List<Account> accountList = new ArrayList<Account>();
 		
-		List<Account> accountList1 = new ArrayList<Account>();
-		List<Account> accountList2 = new ArrayList<Account>();		
-		List<Account> accountList3 = new ArrayList<Account>();
+		customerList.add(customer1);
+		customerList.add(customer2);
+		customerList.add(customer3);
 		
-		customerList1.add(customer1);
-		customerList2.add(customer2);
-		customerList3.add(customer3);
-		customerList3.add(customer1);
-		customerList4.add(customer4);
+		accountList.add(account1);
+		accountList.add(account2);
+		accountList.add(account3);
+				
+		customer1.setAccounts(accountList);
+		customer2.setAccounts(accountList);
+		customer3.setAccounts(accountList);
+		customer4.setAccounts(null);
 		
-		accountList1.add(account1);
-		accountList2.add(account2);
-		accountList3.add(account3);
-		accountList3.add(account2);
-		
-/*		customer1.setAccounts(accountList1);
-		customer2.setAccounts(accountList2);
-		customer3.setAccounts(accountList3);
-		customer4.setAccounts(accountList1);
-		
-		account1.setCustomers(customerList1);
-		account2.setCustomers(customerList2);
-		account3.setCustomers(customerList3);
-*/		
+/*		account1.setCustomers(customerList);
+		account2.setCustomers(customerList);
+		account3.setCustomers(customerList);*/
+
 		customerRepository.save(customer1);
 		customerRepository.save(customer2);
 		customerRepository.save(customer3);
 		customerRepository.save(customer4);
+		
 	}
 
 	@Test
@@ -125,7 +124,6 @@ class CustomerRepository2Test {
 		
 	}
 
-	
 	@Test
 	@Order(4)
 	@Transactional
